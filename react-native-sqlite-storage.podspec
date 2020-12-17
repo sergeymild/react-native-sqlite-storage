@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '8.0'
   s.osx.deployment_target = '10.10'
 
-  s.preserve_paths = 'README.md', 'LICENSE', 'package.json', 'sqlite.js'
+  s.preserve_paths = 'README.md', 'LICENSE', 'package.json', 'sqlite.ts'
   s.source_files   = "platforms/ios/*.{h,m}"
 
   s.dependency 'React'
