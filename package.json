@@ -2,9 +2,8 @@
   "name": "react-native-sqlite-storage",
   "version": "0.1.0",
   "description": "sqlite",
-  "main": "lib/commonjs/index",
-  "module": "lib/module/index",
-  "types": "lib/typescript/index.d.ts",
+  "main": "src/index",
+  "module": "src/index",
   "react-native": "src/index",
   "source": "src/index",
   "files": [
