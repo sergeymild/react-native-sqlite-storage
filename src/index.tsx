@@ -1,9 +1,5 @@
-import { NativeModules } from 'react-native';
+import { SQLiteFactory } from './SQLiteFactory';
+import { setDebug } from './common';
 
-type SqliteStorageType = {
-  multiply(a: number, b: number): Promise<number>;
-};
-
-const { SqliteStorage } = NativeModules;
-
-export default SqliteStorage as SqliteStorageType;
+export const setSQLiteDebug = setDebug;
+export const factory = new SQLiteFactory();

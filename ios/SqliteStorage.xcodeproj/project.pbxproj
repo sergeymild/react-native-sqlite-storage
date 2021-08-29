@@ -7,9 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-
-		5E555C0D2413F4C50049A1A2 /* SqliteStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* SqliteStorage.m */; };
-
+		927A769A26DB75C20089A3D6 /* SQLiteResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 927A769826DB75BB0089A3D6 /* SQLiteResult.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,10 +24,10 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libSqliteStorage.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSqliteStorage.a; sourceTree = BUILT_PRODUCTS_DIR; };
-
-		B3E7B5881CC2AC0600A0062D /* SqliteStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SqliteStorage.h; sourceTree = "<group>"; };
-		B3E7B5891CC2AC0600A0062D /* SqliteStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SqliteStorage.m; sourceTree = "<group>"; };
-
+		927A769826DB75BB0089A3D6 /* SQLiteResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SQLiteResult.m; sourceTree = "<group>"; };
+		927A769926DB75BB0089A3D6 /* SQLiteResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SQLiteResult.h; sourceTree = "<group>"; };
+		B3E7B5881CC2AC0600A0062D /* SQLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLite.h; sourceTree = "<group>"; };
+		B3E7B5891CC2AC0600A0062D /* SQLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLite.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,10 +52,10 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
-
-				B3E7B5881CC2AC0600A0062D /* SqliteStorage.h */,
-				B3E7B5891CC2AC0600A0062D /* SqliteStorage.m */,
-
+				B3E7B5881CC2AC0600A0062D /* SQLite.h */,
+				B3E7B5891CC2AC0600A0062D /* SQLite.m */,
+				927A769926DB75BB0089A3D6 /* SQLiteResult.h */,
+				927A769826DB75BB0089A3D6 /* SQLiteResult.m */,
 				134814211AA4EA7D00B7C361 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -119,9 +117,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-
-				B3E7B58A1CC2AC0600A0062D /* SqliteStorage.m in Sources */,
-
+				927A769A26DB75C20089A3D6 /* SQLiteResult.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -234,7 +230,6 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = SqliteStorage;
 				SKIP_INSTALL = YES;
-
 			};
 			name = Debug;
 		};
@@ -251,7 +246,6 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = SqliteStorage;
 				SKIP_INSTALL = YES;
-
 			};
 			name = Release;
 		};

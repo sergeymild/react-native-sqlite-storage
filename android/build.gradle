@@ -1,58 +1,66 @@
 buildscript {
-    if (project == rootProject) {
-        repositories {
-            google()
-            jcenter()
-        }
-
-        dependencies {
-            classpath 'com.android.tools.build:gradle:3.5.3'
-        }
+  if (project == rootProject) {
+    repositories {
+      google()
+      jcenter()
     }
+
+    dependencies {
+      classpath 'com.android.tools.build:gradle:3.5.3'
+    }
+  }
 }
 
 apply plugin: 'com.android.library'
 
 def safeExtGet(prop, fallback) {
-    rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
+  rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
 }
 
 android {
-    compileSdkVersion safeExtGet('SqliteStorage_compileSdkVersion', 29)
-    buildToolsVersion safeExtGet('SqliteStorage_buildToolsVersion', '29.0.2')
-    defaultConfig {
-        minSdkVersion safeExtGet('SqliteStorage_minSdkVersion', 16)
-        targetSdkVersion safeExtGet('SqliteStorage_targetSdkVersion', 29)
-        versionCode 1
-        versionName "1.0"
+  compileSdkVersion safeExtGet('SqliteStorage_compileSdkVersion', 29)
+  buildToolsVersion safeExtGet('SqliteStorage_buildToolsVersion', '29.0.2')
+  defaultConfig {
+    minSdkVersion safeExtGet('SqliteStorage_minSdkVersion', 16)
+    targetSdkVersion safeExtGet('SqliteStorage_targetSdkVersion', 29)
+    versionCode 1
+    versionName "1.0"
 
-    }
+  }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-        }
+  buildTypes {
+    release {
+      minifyEnabled false
     }
-    lintOptions {
-        disable 'GradleCompatible'
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+  }
+  lintOptions {
+    disable 'GradleCompatible'
+  }
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+
+  packagingOptions {
+    exclude 'lib/x86/libsqlite3x.so'
+    exclude 'lib/x86_64/libsqlite3x.so'
+  }
 }
 
 repositories {
-    mavenLocal()
-    maven {
-        // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
-        url("$rootDir/../node_modules/react-native/android")
-    }
-    google()
-    jcenter()
+  mavenLocal()
+  maven {
+    // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
+    url("$rootDir/../node_modules/react-native/android")
+  }
+  maven { url 'https://jitpack.io' }
+  google()
+  jcenter()
 }
 
 dependencies {
-    //noinspection GradleDynamicVersion
-    implementation "com.facebook.react:react-native:+"  // From node_modules
+  //noinspection GradleDynamicVersion
+  implementation "com.facebook.react:react-native:+"  // From node_modules
+  implementation 'com.github.requery:sqlite-android:3.36.0'
+  implementation 'androidx.sqlite:sqlite:2.1.0'
 }
