@@ -15,13 +15,11 @@ const App = () => {
         ];
 
         const k = await database();
-        await k
-          .batchInsert('categories')
-          .chunkSize(1)
-          .items(rows)
-          .onConflict(['name'])
-          .ignore();
+        console.log('- 1 db');
+        await k.table('categories').insert(rows).onConflict('name').ignore();
+        console.log('- 2 db');
         console.log(await k.table('categories').select());
+        console.log('- 3 db');
       } catch (e) {
         console.log(e);
       }

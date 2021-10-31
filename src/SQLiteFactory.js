@@ -34,7 +34,7 @@ export class SQLiteFactory {
   echoTest = () => {
     return new Promise((resolve, reject) => {
       let inputTestValue = 'test-string';
-      let mysuccess = (testValue) => {
+      let echoTestSuccess = (testValue) => {
         if (testValue === inputTestValue) {
           log('Success exec echo', testValue);
           return resolve();
@@ -46,7 +46,12 @@ export class SQLiteFactory {
       };
       let myerror = (e) => reject(e);
 
-      exec('echoStringValue', { value: inputTestValue }, mysuccess, myerror);
+      exec(
+        'echoStringValue',
+        { value: inputTestValue },
+        echoTestSuccess,
+        myerror
+      );
     });
   };
 }

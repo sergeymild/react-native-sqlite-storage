@@ -146,7 +146,7 @@ export class SQLitePlugin {
       }
       return results;
     };
-    let mysuccess = () => {
+    let sqlBatchSuccess = () => {
       if (success) return success();
     };
     let myerror = (e) => {
@@ -158,7 +158,14 @@ export class SQLitePlugin {
     };
 
     this.addTransaction(
-      new SQLitePluginTransaction(this, myfn, myerror, mysuccess, true, false)
+      new SQLitePluginTransaction(
+        this,
+        myfn,
+        myerror,
+        sqlBatchSuccess,
+        true,
+        false
+      )
     );
   };
 
@@ -224,7 +231,7 @@ export class SQLitePlugin {
       } else {
         log('closing db with no transaction lock state');
       }
-      let mysuccess = (t, r) => {
+      let closeSuccess = (t, r) => {
         if (success) return success(r);
       };
       let myerror = (t, e) => {
@@ -234,7 +241,7 @@ export class SQLitePlugin {
           log('Error handler not provided: ', e);
         }
       };
-      exec('close', { path: this.dbname }, mysuccess, myerror);
+      exec('close', { path: this.dbname }, closeSuccess, myerror);
     } else {
       const err = 'cannot close: database is not open';
       log(err);
@@ -246,10 +253,12 @@ export class SQLitePlugin {
 
   executeSql = (statement, params) => {
     return new Promise((resolve, reject) => {
-      const mysuccess = (t, r) => resolve(r);
+      const executeSqlSuccess = (t, r) => {
+        resolve(r);
+      };
       const myerror = (t, e) => reject(new Error(e.message));
       const myfn = (tx) => {
-        tx.addStatement(statement, params, mysuccess, myerror);
+        tx.addStatement(statement, params, executeSqlSuccess, myerror);
       };
       this.addTransaction(
         new SQLitePluginTransaction(this, myfn, null, null, false, false)

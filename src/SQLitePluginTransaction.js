@@ -60,7 +60,7 @@ export class SQLitePluginTransaction {
       });
       return;
     }
-    const mysuccess = (t, r) => {
+    const executeSqlSuccess = (t, r) => {
       if (success) return success(t, r);
     };
     const myerror = (t, e) => {
@@ -70,7 +70,7 @@ export class SQLitePluginTransaction {
         log('Error handler not provided: ', e);
       }
     };
-    this.addStatement(sql, values, mysuccess, myerror);
+    this.addStatement(sql, values, executeSqlSuccess, myerror);
   };
 
   addStatement = (sql, values, success, error) => {
@@ -198,7 +198,7 @@ export class SQLitePluginTransaction {
       i++;
     }
 
-    let mysuccess = (result) => {
+    let runSuccess = (result) => {
       if (result.length === 0) return;
       const last = result.length - 1;
       for (let j = 0; j <= last; ++j) {
@@ -226,7 +226,7 @@ export class SQLitePluginTransaction {
         },
         executes: tropts,
       },
-      mysuccess,
+      runSuccess,
       myerror
     );
   };

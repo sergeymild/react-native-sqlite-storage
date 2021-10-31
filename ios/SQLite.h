@@ -28,29 +28,49 @@ enum WebSQLError {
     CONSTRAINT_ERR = 6,
     TIMEOUT_ERR = 7
 };
-typedef int WebSQLError;
+//typedef int WebSQLError;
 
-@interface SQLite : NSObject <RCTBridgeModule> {
+@interface SQLite : NSObject {
     NSMutableDictionary *openDBs;
 }
+
+typedef void (^SQLiteBlock)(id message);
 
 @property (nonatomic, copy) NSMutableDictionary *openDBs;
 @property (nonatomic, copy) NSMutableDictionary *appDBPaths;
 
 // Open / Close
--(void) open: (NSDictionary *) options success:(RCTResponseSenderBlock)success error:(RCTResponseSenderBlock)error;
--(void) close: (NSDictionary *) options success:(RCTResponseSenderBlock)success error:(RCTResponseSenderBlock)error;
--(void) attach: (NSDictionary *) options success:(RCTResponseSenderBlock)success error:(RCTResponseSenderBlock)error;
--(void) delete: (NSDictionary *) options success:(RCTResponseSenderBlock)success error:(RCTResponseSenderBlock)error;
+-(void) open: (NSDictionary *) options
+     success:(SQLiteBlock)success
+       error:(SQLiteBlock)error;
+-(void) close: (NSDictionary *) options
+      success:(SQLiteBlock)success
+        error:(SQLiteBlock)error;
+-(void) attach: (NSDictionary *) options
+       success:(SQLiteBlock)success
+         error:(SQLiteBlock)error;
+-(void) sqliteDelete: (NSDictionary *) options
+             success:(SQLiteBlock)success
+               error:(SQLiteBlock)error;
 
 // Batch processing interface
--(void) backgroundExecuteSqlBatch: (NSDictionary *) options success:(RCTResponseSenderBlock)success error:(RCTResponseSenderBlock)error;
--(void) executeSqlBatch: (NSDictionary *) options success:(RCTResponseSenderBlock)success error:(RCTResponseSenderBlock)error;
+-(void) backgroundExecuteSqlBatch: (NSDictionary *) options
+                          success:(SQLiteBlock)success
+                            error:(SQLiteBlock)error;
+-(void) executeSqlBatch: (NSDictionary *) options
+                success:(SQLiteBlock)success
+                  error:(SQLiteBlock)error;
 
 // Single requests interface
--(void) backgroundExecuteSql:(NSDictionary *) options success:(RCTResponseSenderBlock)success error:(RCTResponseSenderBlock)error;
--(void) executeSql:(NSDictionary *) options success:(RCTResponseSenderBlock)success error:(RCTResponseSenderBlock)error;
+-(void) backgroundExecuteSql:(NSDictionary *) options
+                     success:(SQLiteBlock)success
+                       error:(SQLiteBlock)error;
+-(void) executeSql:(NSDictionary *) options
+           success:(SQLiteBlock)success
+             error:(SQLiteBlock)error;
 
 // Echo Test
--(void) echoStringValue:(NSDictionary *) options success:(RCTResponseSenderBlock)success error:(RCTResponseSenderBlock)error;
+-(void) echoStringValue:(NSDictionary *) options
+                success:(SQLiteBlock)success
+                  error:(SQLiteBlock)error;
 @end
