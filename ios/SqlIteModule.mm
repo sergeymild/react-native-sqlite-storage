@@ -8,12 +8,15 @@
 
 #include "SqlIteModule.h"
 
+#import <React/RCTBridge.h>
 #import <React/RCTUtils.h>
 #import <React/RCTBridgeModule.h>
+#import <ReactCommon/CallInvoker.h>
 #import <React/RCTBridge+Private.h>
 #import <jsi/jsi.h>
 #import <sys/utsname.h>
 #import "YeetJSIUtils.h"
+#import <ReactCommon/RCTTurboModuleManager.h>
 
 using namespace facebook;
 using namespace std;
@@ -38,19 +41,18 @@ RCT_EXPORT_MODULE()
 }
 
 - (void)installLibrary {
-
+    
     RCTCxxBridge *cxxBridge = (RCTCxxBridge *)self.bridge;
-        
-        if (!cxxBridge.runtime) {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.001 * NSEC_PER_SEC),
-                           dispatch_get_main_queue(), ^{
-                [self installLibrary];
-                
-            });
-            return;
-        }
-
-        install(*(facebook::jsi::Runtime *)cxxBridge.runtime, self);
+    if (!cxxBridge.runtime) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.001 * NSEC_PER_SEC),
+                       dispatch_get_main_queue(), ^{
+            [self installLibrary];
+            
+        });
+        return;
+    }
+    
+    install(*(facebook::jsi::Runtime *)cxxBridge.runtime, self);
 }
 
 static void install(jsi::Runtime &jsiRuntime, SqlIteModule *sqliteModule) {
@@ -178,19 +180,22 @@ static void install(jsi::Runtime &jsiRuntime, SqlIteModule *sqliteModule) {
                                                                                           const jsi::Value &thisValue,
                                                                                           const jsi::Value *arguments,
                                                                                           size_t count) -> jsi::Value {
-        
+
         arguments[0].getObject(runtime);
         auto *dict = convertIJSIObjectToNSDictionary(runtime, arguments[0].getObject(runtime));
-        
+
         __block auto success = arguments[1].getObject(runtime).getFunction(runtime);
         __block auto error = arguments[2].getObject(runtime).getFunction(runtime);
         
-        [[sqliteModule sqlite] backgroundExecuteSqlBatch:dict success:^(id message) {
-            jsi::Value v = convertIObjCObjectToJSIValue(runtime, message);
-            success.call(runtime, v, 1);
+        [[sqliteModule sqlite] backgroundExecuteSqlBatch:dict success:^(id message) {;
+            auto invoker = sqliteModule.bridge.jsCallInvoker;
+            invoker->invokeSync([success, message]() {
+                jsi::Value v = convertIObjCObjectToJSIValue(runtime, message);
+                success.call(runtime, v);
+            })
         } error:^(id message) {
             jsi::Value v = convertIObjCObjectToJSIValue(runtime, message);
-            error.call(runtime, v, 1);
+            error.call(runtime, v);
         }];
         return jsi::Value(0);
     });

@@ -67,5 +67,15 @@ export const logError = function (...messages) {
 
 export const exec = (method, options, success, error) => {
   log(`[start][SQLite.${method}](${JSON.stringify(options)})`);
-  global[method](options, success, error);
+  global[method](
+    options,
+    (m) => {
+      console.log('suss', m);
+      success(m);
+    },
+    (e) => {
+      console.log('err', e);
+      error(e);
+    }
+  );
 };
