@@ -7684,6 +7684,11 @@ react-native-builder-bob@^0.18.0:
   optionalDependencies:
     jetifier "^1.6.6"
 
+react-native-quick-sqlite@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/react-native-quick-sqlite/-/react-native-quick-sqlite-1.0.5.tgz#e77fd55cc07777445a5140b51946f8e9bee68311"
+  integrity sha512-UKY/StXIaBSjzBvF1fe7/h7U/QY8Fy23BQ/nFZL6jBBULSVsbL9xYUd/QYhHPoY40DwGoOlCqP28Ci2TrEsltA==
+
 react-native@0.63.4:
   version "0.63.4"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.63.4.tgz#2210fdd404c94a5fa6b423c6de86f8e48810ec36"

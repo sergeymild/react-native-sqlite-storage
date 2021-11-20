@@ -1,7 +1,5 @@
 import { Knex, NativeClient } from 'react-native-knex';
-// import factory, { setSQLiteDebug } from "react-native-sqlite-storage";
-// setSQLiteDebug(false);
-//setSQLiteDebug(true)
+
 import { factory } from 'react-native-sqlite-storage';
 
 export const knex = new Knex(

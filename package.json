@@ -65,7 +65,11 @@
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "react-native-quick-sqlite": "^1.0.5"
+  },
+  "dependencies": {
+    "react-native-quick-sqlite": "^1.0.5"
   },
   "jest": {
     "preset": "react-native",
