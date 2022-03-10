@@ -1,5 +1,3 @@
-import { SQLiteFactory } from './SQLiteFactory';
-import { setDebug } from './common';
+import { SQLite } from './SQLite';
 
-export const setSQLiteDebug = setDebug;
-export const factory = new SQLiteFactory();
+export {SQLite}

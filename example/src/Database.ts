@@ -1,42 +1,47 @@
-import { Knex, NativeClient } from 'react-native-knex';
 // import factory, { setSQLiteDebug } from "react-native-sqlite-storage";
 // setSQLiteDebug(false);
 //setSQLiteDebug(true)
-import { factory } from 'react-native-sqlite-storage';
 
-export const knex = new Knex(
-  new NativeClient(
-    {
-      debug: true,
-      name: 'database.sqlite',
-    },
-    factory
-  )
-);
+
+
+
+import { SQLite } from 'react-native-sqlite-storage';
+
+let db: SQLite = new SQLite({name: 'database.sqlite'})
 
 const checkDatabase = async (newVersion: number) => {
-  const response = await knex.raw('PRAGMA user_version;');
-  await knex.raw('PRAGMA foreign_keys = ON;');
-  const shouldCreateTables = response[0].user_version === 0;
-  if (response[0].user_version !== newVersion) {
-    await knex.raw(`PRAGMA user_version = ${newVersion};`);
+  const response = await db.executeSql<{user_version: number}>('PRAGMA user_version;')
+  console.log('[Database.checkDatabase]', response)
+  console.log('[Database.closeDb]', await db.close())
+  await db.executeSql('PRAGMA foreign_keys = ON;')
+  let shouldCreateTables = false
+  if (response.type === 'success') {
+    shouldCreateTables = response.rows[0].user_version === 0;
+    if (response.rows[0].user_version !== newVersion) {
+      await db.executeSql(`PRAGMA user_version = ${newVersion};`)
+    }
   }
   return shouldCreateTables;
 };
 
 // Create a table
 const createTables = async () => {
-  const has = await knex.schema.hasTable('categories');
-  if (has) return;
-  await knex.schema.createTable('categories', (table) => {
-    table.increments('id');
-    table.string('name').unique();
-    table.string('lastName').index();
-  });
+  const response = await db.executeSql(`
+    CREATE TABLE categories (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL UNIQUE,
+      lastName TEXT NOT NULL
+    );
+  `)
+  if (response.type === 'error') {
+    console.log('[Database.error]', response)
+  } else {
+    console.log('[Database.success]', response)
+  }
 };
 
 export const database = async () => {
   await checkDatabase(1);
   if (true) await createTables();
-  return knex;
+  return db;
 };
