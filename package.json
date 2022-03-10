@@ -1,6 +1,6 @@
 {
   "name": "react-native-sqlite-storage",
-  "version": "0.1.0",
+  "version": "0.5.0",
   "description": "sqlite",
   "main": "src/index",
   "module": "src/index",
